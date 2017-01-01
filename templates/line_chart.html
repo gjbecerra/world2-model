@@ -48,16 +48,9 @@
         }]
       }
 
-      // get bar chart canvas
+      // get chart canvas
       var holder = document.getElementById("myChart");
       var ctx = document.getElementById("myChart").getContext("2d");
-
-      // create a callback function for updating the caption
-      var original = Chart.defaults.global.legend.onClick;
-      Chart.defaults.global.legend.onClick = function(e, legendItem) {
-        update_caption(legendItem);
-        original.call(this, e, legendItem);
-      };
 
       // create the chart using the chart canvas
       var myChart = new Chart(ctx, {
@@ -69,7 +62,6 @@
             mode: 'single',
             callbacks: {
               label: function(tooltipItems, data) {
-                       firstPointCtx = "First Point Selected: (2:20PM, 72.3 degrees)";
                        return tooltipItems.yLabel + ' degrees';
                      }
             }
