@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Chart.js Example</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
+    <!-- import plugin script -->
+    <script src='static/chart.js-2.9.4/package/dist/Chart.min.js'></script>
+  </head>
+  <body>
+    <h1>Los Límites del Crecimiento</h1>
+    <p>En la siguiente gráfica se observa una simulación del modelo "World2", formado por un sistema de ecuaciones diferenciales de quinto orden. En la parte inferior se pueden ingresar valores para diferentes parámetros que introducen cambios en el sistema en el año de 1970, de acuerdo con los diferentes escenarios analizados por J.W. Forrester.</p>
+    <!-- bar chart canvas element -->
+    <canvas id="populationChart" width="1200" height="600"></canvas>
+    <h2>Parámetros del modelo:</h2>
+    <form method="POST">
+        <p>Tasa de nacimientos (0.04): <input name="birthRate"/></p>
+        <p>Tasa de fallecimientos (0.028): <input name="deathRate"/></p>
+        <p>Uso de recursos naturales (1): <input name="naturalResourceUsage"/></p>
+        <p>Coeficiente de alimentación (1): <input name="foodCoefficient"/></p>
+        <p>Contaminación (1): <input name="pollution"/></p>
+        <p><input type="submit" value="Ejecutar Simulación"></p>
+    </form>
+    {{errors}}
+
+    <!-- <script src="{{url_for('static', filename='script.js')}}"></script> -->
+    <script>
+      // Global parameters:
+      // do not resize the chart canvas when its container does (keep at 600x400px)
+      Chart.defaults.global.responsive = true;
+
+      // define the chart data
+      var chartData = {
+        labels : [{% for item in labels %}
+                   "{{item}}",
+                  {% endfor %}],
+        datasets : [{
+            label: 'Población',
+            yAxisID: 'P',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for item in population %}
+                      {{item}},
+                    {% endfor %}],
+            spanGaps: false
+        },
+        {
+            label: 'Contaminación',
+            yAxisID: 'POLR',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(192,75,75,0.4)",
+            borderColor: "rgba(192,75,75,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(192,75,75,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(192,75,75,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for item in pollution %}
+                      {{item}},
+                    {% endfor %}],
+            spanGaps: false
+        },
+        {
+            label: 'Inversión de Capital',
+            yAxisID: 'CI',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(192,192,75,0.4)",
+            borderColor: "rgba(192,192,75,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(192,192,75,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(192,192,75,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for item in capitalInv %}
+                      {{item}},
+                    {% endfor %}],
+            spanGaps: false
+        },{
+            label: 'Calidad de Vida',
+            yAxisID: 'QL',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,75,192,0.4)",
+            borderColor: "rgba(75,75,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,75,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,75,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for item in qualityOfLife %}
+                      {{item}},
+                    {% endfor %}],
+            spanGaps: false
+        },{
+            label: 'Recursos Naturales',
+            yAxisID: 'NR',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,75,0.4)",
+            borderColor: "rgba(75,192,75,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,75,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,75,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data : [{% for item in naturalResources %}
+                      {{item}},
+                    {% endfor %}],
+            spanGaps: false
+        }]
+      }
+
+      // get chart canvas
+      var holder = document.getElementById("populationChart");
+      var ctx = document.getElementById("populationChart").getContext("2d");
+
+      // create the chart using the chart canvas
+      var populationChart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+              label: function(tooltipItems, data) {
+                       return tooltipItems.yLabel;
+                     }
+            }
+          },
+          scales: {
+            xAxes: [{
+              id: 'time',
+              scaleLabel: {
+                display: true,
+                labelString: "Tiempo [año]"
+              }
+            }],
+            yAxes: [{
+              id: 'P',
+              type: 'linear',
+              position: 'left',
+              ticks: { fontColor: "rgba(75,192,192,1)" },
+              scaleLabel: {
+                display: true,
+                labelString: "Población",
+                fontColor: "rgba(75,192,192,1)"
+              }
+            }, {
+              id: 'POLR',
+              type: 'linear',
+              position: 'left',
+              ticks: { fontColor: "rgba(192,75,75,1)" },
+              scaleLabel: {
+                display: true,
+                labelString: "Contaminación",
+                fontColor: "rgba(192,75,75,1)"
+              }
+            }, {
+              id: 'CI',
+              type: 'linear',
+              position: 'right',
+              ticks: { fontColor: "rgba(192,192,75,1)" },
+              scaleLabel: {
+                display: true,
+                labelString: "Inversión de Capital",
+                fontColor: "rgba(192,192,75,1)"
+              }
+            }, {
+              id: 'QL',
+              type: 'linear',
+              position: 'right',
+              ticks: { fontColor: "rgba(75,75,192,1)" },
+              scaleLabel: {
+                display: true,
+                labelString: "Calidad de Vida",
+                fontColor: "rgba(75,75,192,1)"
+              }
+            }, {
+              id: 'NR',
+              type: 'linear',
+              position: 'right',
+              ticks: { fontColor: "rgba(75,192,75,1)"},
+              scaleLabel: {
+                display: true,
+                labelString: "Recursos Naturales",
+                fontColor: "rgba(75,192,75,1)"
+              }
+            }]
+          }
+        }
+      });
+
+      // get the text element below the chart
+      var pointSelected = document.getElementById("pointSelected");
+
+      // create a callback function for updating the selected index on the chart
+      holder.onclick = function(evt){
+        var activePoint = myChart.getElementAtEvent(evt);
+        console.log(activePoint);
+        console.log('x:' + activePoint[0]._view.x);
+        console.log('maxWidth: ' + activePoint[0]._xScale.maxWidth);
+        console.log('y: ' + activePoint[0]._view.y);
+        console.log('index: ' + activePoint[0]._index);
+        pointSelected.innerHTML = 'Point selected... index: ' + activePoint[0]._index;
+      };
+    </script>
+
+  </body>
+</html>
