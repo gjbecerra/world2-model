@@ -1,19 +1,9 @@
-## Synopsis
+## Modelo World2 
 
-Examples for using the Chart.js library in a Flask web application for creating line charts.
+Implementación en python del modelo world2, obtenida a partir de la implementación en R desarrollada por Arnaud Mignan y disponible en (https://github.com/amignan/hist_gc_sysdyn)
 
-## How to Run
-
-In the top-level folder, run the development server:
-    % python app.py
-
-Go to your favorite web browser and open:
-    http://locallhost:5000
-
-## Key Python Modules Used
+## Módulos de Python Utilizados 
 
 - Flask - web framework
 - Jinga2 - templating engine
-
-This application is written using Python 3.4.3.
-
+- Chart.js - plotting library

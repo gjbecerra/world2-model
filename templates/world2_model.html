@@ -2,14 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Chart.js Example</title>
+    <title>Modelo World2</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
     <!-- import plugin script -->
     <script src='static/chart.js-2.9.4/package/dist/Chart.min.js'></script>
   </head>
   <body>
-    <h1>Los Límites del Crecimiento</h1>
+    <h1>Modelo World2</h1>
     <p>En la siguiente gráfica se observa una simulación del modelo "World2", formado por un sistema de ecuaciones diferenciales de quinto orden. En la parte inferior se pueden ingresar valores para diferentes parámetros que introducen cambios en el sistema en el año de 1970, de acuerdo con los diferentes escenarios analizados por J.W. Forrester.</p>
+    <p>Implementación del modelo: Gerardo Becerra</p>
     <!-- bar chart canvas element -->
     <canvas id="populationChart" width="1200" height="600"></canvas>
     <h2>Parámetros del modelo:</h2>
