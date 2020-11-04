@@ -10,11 +10,12 @@
   <body>
     <h1>Modelo World2</h1>
     <p>En la siguiente gráfica se observa una simulación del modelo "World2", formado por un sistema de ecuaciones diferenciales de quinto orden. En la parte inferior se pueden ingresar valores para diferentes parámetros que introducen cambios en el sistema en el año de 1970, de acuerdo con los diferentes escenarios analizados por J.W. Forrester.</p>
-    <p>Implementación del modelo: Gerardo Becerra</p>
+    <p>Implementación del modelo: Gerardo Becerra. Código fuente disponible en <a href="https://github.com/gjbecerra/world2-model" target="_blank">github</a>.</p>
     <!-- bar chart canvas element -->
     <canvas id="populationChart" width="1200" height="600"></canvas>
     <h2>Parámetros del modelo:</h2>
     <form method="POST">
+        <p>Los siguientes parámetros pueden utilizarse para evaluar el efecto de aplicar cambios en variables que pueden afectar el comportamiento del sistema. Entre paréntesis se muestran los valores por defecto utilizados para la ejecución estándar del modelo, de acuerdo con el autor.</p>
         <p>Tasa de nacimientos (0.04): <input name="birthRate"/></p>
         <p>Tasa de fallecimientos (0.028): <input name="deathRate"/></p>
         <p>Uso de recursos naturales (1): <input name="naturalResourceUsage"/></p>
